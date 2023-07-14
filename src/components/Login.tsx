@@ -1,11 +1,25 @@
-import React, {FC, useCallback, useRef} from "react";
+import React, {useRef} from "react";
+import {Dispatch} from "redux";
+import {AuthActions, LOGIN_REQUEST} from "../store/actions/auth";
+import {connect} from "react-redux";
 import 'bootstrap/dist/css/bootstrap.css';
-import {DispatchProps} from "./types";
 
-const Login: FC<DispatchProps> = ({login}) => {
-  const emailRef: React.RefObject<HTMLInputElement> = useRef(null);
-  const passwordRef: React.RefObject<HTMLInputElement> = useRef(null);
-  const afterLogin= useCallback(() => console.log('after login'), []);
+const Login: React.FC<{}> = (props: any) => {
+  const emailRef: any = useRef();
+  const passwordRef: any = useRef();
+  const callback = (data: any) => {
+    console.log("inside callback after login");
+  }
+  const login = () => {
+    let data: any = {
+      values: {
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      },
+      callback
+    }
+    props.login(data);
+  }
 
   return (
       <div className="container">
@@ -35,14 +49,19 @@ const Login: FC<DispatchProps> = ({login}) => {
               />
               <label htmlFor="floatingPassword">Password</label>
             </div>
-            <button className="w-100 btn btn-lg btn-warning"onClick={() => {
+            <button onClick={() => {
               login();
-              afterLogin();
-            }}>Sign in</button>
+            }}
+                    className="w-100 btn btn-lg btn-warning"
+            >Sign in</button>
           </div>
         </div>
       </div>
   )
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch: Dispatch<AuthActions>) => ({
+  login: (params: any) => dispatch({type: LOGIN_REQUEST, payload: params})
+})
+
+export default connect(null, mapDispatchToProps)(Login);
