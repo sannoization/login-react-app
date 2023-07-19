@@ -1,23 +1,18 @@
 import React, {useRef} from "react";
-import {Dispatch} from "redux";
-import {AuthActions, SIGNUP_REQUEST} from "../store/actions/auth";
-import {connect} from "react-redux";
+import {DispatchProps} from "./register.types";
 
-const Register: React.FC = (props: any) => {
+const Register: React.FC<DispatchProps> = ({register}) => {
   const emailRef: any = useRef();
   const passwordRef: any = useRef();
-  const callback = (data: any) => {
-    console.log("inside callback after login");
-  }
-  const register = () => {
+  const callback = () => {
+    console.log("inside callback after register");
     let data: any = {
       values: {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       },
-      callback
-    }
-    props.register(data);
+    };
+    register(data);
   }
 
   return (
@@ -49,7 +44,7 @@ const Register: React.FC = (props: any) => {
               <label htmlFor="floatingPassword">Password</label>
             </div>
             <button onClick={() => {
-              register();
+              callback();
             }}
                     className="w-100 btn btn-lg btn-warning mt-3"
             >Sign up</button>
@@ -59,8 +54,5 @@ const Register: React.FC = (props: any) => {
   )
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AuthActions>) => ({
-  register: (params: any) => dispatch({type: SIGNUP_REQUEST, payload: params})
-})
+export default Register;
 
-export default connect(null, mapDispatchToProps)(Register);

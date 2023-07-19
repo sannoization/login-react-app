@@ -1,24 +1,19 @@
 import React, {useRef} from "react";
-import {Dispatch} from "redux";
-import {AuthActions, LOGIN_REQUEST} from "../store/actions/auth";
-import {connect} from "react-redux";
 import 'bootstrap/dist/css/bootstrap.css';
+import {DispatchProps} from "./login.types";
 
-const Login: React.FC<{}> = (props: any) => {
+const Login: React.FC<DispatchProps> = ({login}) => {
   const emailRef: any = useRef();
   const passwordRef: any = useRef();
-  const callback = (data: any) => {
+  const callback = () => {
     console.log("inside callback after login");
-  }
-  const login = () => {
     let data: any = {
       values: {
         email: emailRef.current.value,
         password: passwordRef.current.value,
-      },
-      callback
-    }
-    props.login(data);
+      }
+    };
+      login(data);
   }
 
   return (
@@ -27,7 +22,7 @@ const Login: React.FC<{}> = (props: any) => {
           <div className="col-md-5 mx-auto card mt-5 p-5">
 
 
-            <h1>this is a login component</h1>
+            <h1>Login</h1>
             <div className='form-floating'>
               <input
                   type="email"
@@ -50,9 +45,9 @@ const Login: React.FC<{}> = (props: any) => {
               <label htmlFor="floatingPassword">Password</label>
             </div>
             <button onClick={() => {
-              login();
+              callback();
             }}
-                    className="w-100 btn btn-lg btn-warning"
+                    className="w-100 btn btn-lg btn-warning mt-3"
             >Sign in</button>
           </div>
         </div>
@@ -60,8 +55,5 @@ const Login: React.FC<{}> = (props: any) => {
   )
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<AuthActions>) => ({
-  login: (params: any) => dispatch({type: LOGIN_REQUEST, payload: params})
-})
+export default Login;
 
-export default connect(null, mapDispatchToProps)(Login);
