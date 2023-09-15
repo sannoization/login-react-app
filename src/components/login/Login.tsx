@@ -1,6 +1,6 @@
 import React, {useRef} from "react";
 import 'bootstrap/dist/css/bootstrap.css';
-import {DispatchProps} from "./login.types";
+import {DispatchProps} from "./login";
 
 const Login: React.FC<DispatchProps> = ({login}) => {
   const emailRef: any = useRef();

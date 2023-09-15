@@ -1,5 +1,5 @@
 import React, {useRef} from "react";
-import {DispatchProps} from "./register.types";
+import {DispatchProps} from "./register";
 
 const Register: React.FC<DispatchProps> = ({register}) => {
   const emailRef: any = useRef();
